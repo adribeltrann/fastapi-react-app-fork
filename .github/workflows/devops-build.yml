@@ -1,19 +1,43 @@
-name: DevOps Docker CI
+name: DevOps CI
 
 on:
   push:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar tests
+        run: npm run test:run
+
+  docker-build:
+    name: Docker Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar el codigo
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
       - name: Construir backend
         run: docker build -t todo-backend:ci ./backend
