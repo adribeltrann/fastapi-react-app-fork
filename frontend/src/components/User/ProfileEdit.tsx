@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useState } from 'react'
 import {
   Button,
@@ -24,7 +25,7 @@ import { useForm } from 'react-hook-form'
 import { RegisterUserProps } from '../Auth/Register'
 
 export type UserProfileEditType = {
-  defaultValues?: RegisterUserProps
+  defaultValues?: RegisterUserProps & { id: string }
   onSuccess: () => void
 }
 
@@ -36,7 +37,7 @@ export const UserProfileEdit = ({
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm({
+  } = useForm<RegisterUserProps>({
     defaultValues: { ...defaultValues },
   })
 
@@ -44,7 +45,7 @@ export const UserProfileEdit = ({
   const toast = useToast()
   const [showPassword, setShowPassword] = useState(false)
 
-  const onSubmit = async (values: LoginUserType) => {
+  const onSubmit = async (values: RegisterUserProps) => {
     try {
       await axiosInstance.put(`/users/${defaultValues?.id}`, values)
 
@@ -58,8 +59,15 @@ export const UserProfileEdit = ({
       onClose()
     } catch (err) {
       console.error(err)
-      const msg = err.response.data.detail[0].msg
-      console.log(err.response.data.detail)
+      const detail = axios.isAxiosError(err)
+        ? err.response?.data?.detail
+        : undefined
+
+      const msg = Array.isArray(detail)
+        ? detail[0]?.msg ?? 'Error al actualizar el perfil'
+        : typeof detail === 'string'
+          ? detail
+          : 'Error al actualizar el perfil'
       toast({
         title: msg,
         status: 'error',

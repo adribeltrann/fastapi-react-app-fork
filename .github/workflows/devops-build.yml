@@ -1,0 +1,22 @@
+name: DevOps Docker CI
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v6
+
+      - name: Construir backend
+        run: docker build -t todo-backend:ci ./backend
+
+      - name: Construir frontend
+        run: docker build -t todo-frontend:ci ./frontend

@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import axiosInstance from '../../services/axios'
-import { LoginUserType } from '../../components/Auth/UserType.types'
 
 export function Users() {
-  const [users, setUsers] = useState<LoginUserType[]>([])
+  
   const isMounted = useRef(false)
 
   useEffect(() => {
