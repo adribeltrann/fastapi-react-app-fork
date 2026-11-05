@@ -24,7 +24,7 @@ jobs:
         run: cd frontend && yarn --frozen-lockfile
       - name: Run tests with coverage
         run: cd frontend && yarn coverage
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: frontend-coverage
           path: frontend/coverage
