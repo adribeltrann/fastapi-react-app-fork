@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import axiosInstance from '../../services/axios'
 
 export function Users() {
-  
   const isMounted = useRef(false)
 
   useEffect(() => {

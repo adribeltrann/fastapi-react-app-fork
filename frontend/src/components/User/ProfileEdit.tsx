@@ -66,8 +66,8 @@ export const UserProfileEdit = ({
       const msg = Array.isArray(detail)
         ? detail[0]?.msg ?? 'Error al actualizar el perfil'
         : typeof detail === 'string'
-          ? detail
-          : 'Error al actualizar el perfil'
+        ? detail
+        : 'Error al actualizar el perfil'
       toast({
         title: msg,
         status: 'error',
