@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: fastapi-react-backend:lab
+
+    env_file:
+      - ./backend/.env
+
+    environment:
+      SQL_CONNECTION_STRING: "sqlite:////app/data/database.db"
+
+    expose:
+      - "8000"
+
+    volumes:
+      - todo-api-data:/app/data
+
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+
+    image: fastapi-react-frontend:lab
+
+    ports:
+      - "127.0.0.1:8083:80"
+
+    depends_on:
+      - backend
+
+    restart: unless-stopped
+
+volumes:
+  todo-api-data:
+    external: true

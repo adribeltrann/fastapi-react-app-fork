@@ -55,8 +55,10 @@ repos:
     hooks:
       - id: eslint
         additional_dependencies:
-          - eslint
+          - eslint@8.57.1
           - eslint-config-react-app
+          - eslint-plugin-jest@27.9.0
+          - eslint-plugin-testing-library@6.5.0
           - typescript
           - "@typescript-eslint/parser"
           - "@typescript-eslint/eslint-plugin"
